@@ -1,0 +1,82 @@
+---
+title: "Twitter_Api"
+author: "Sachin Sharma"
+date: "11/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+
+# load twitter library - the rtweet library is recommended now over twitteR
+#install.packages("rtweet")
+library(twitteR)
+library(rtweet)
+# plotting and pipes - tidyverse!
+library(ggplot2)
+library(dplyr)
+#install.packages("tidytext")
+
+# text mining library
+
+library(tidytext)
+
+# Enter the following as per your own details / records available on twitter developer dashboard : 
+
+api_key <- 'XXX'
+api_secret <- 'XXX'
+access_token <- 'XXX'
+access_token_secret <-'XXX'
+ 
+
+```
+
+# Set up the twitter outh using following function : 
+
+```{r}
+setup_twitter_oauth(api_key,api_secret,access_token,access_token_secret)
+
+```
+
+# Here we are scraping tweets of apple company : 
+
+```{r}
+tweets <- searchTwitter("$aapl",n=10,lang = "en")
+
+tweets
+
+```
+# Converting tweets to data frame : 
+
+```{r}
+tweetsdf <- twListToDF(tweets)
+
+write.csv(tweetsdf,"tweetsdf.csv", row.names = F)
+
+
+```
+
+# Checking the trends on twitter globally : 
+
+```{r}
+trend <- availableTrendLocations()
+head(trend)
+
+```
+
+# We can checke the trends of specific location using code of location and with the help of following function : 
+
+```{r}
+delhi_trend <- getTrends(20070458)
+head(delhi_trend)
+```
+# Extracting tweets of user : User Time lines 
+
+```{r}
+elon <- getUser("elonmusk")
+
+elon
+
+userTimeline(elon,n=2)
+```
+
